@@ -1,4 +1,4 @@
-# aaSenderReciever
+# SenderReciever
 
 This is a basic Python project for sending and receiving a custom packet using socket programming.
 
