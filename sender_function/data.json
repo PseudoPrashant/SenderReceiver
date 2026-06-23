@@ -1,0 +1,10 @@
+{
+    "hashkey": "1234",
+    "enckey": "5678",
+    "method": "0xA1",
+    "payload": [
+        ["name", "Prashant"],
+        ["age", "22"],
+        ["city", "Delhi"]
+    ]
+}
