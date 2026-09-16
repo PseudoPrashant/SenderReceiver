@@ -153,13 +153,13 @@ Note: `hashkey` and `enckey` are now securely loaded from the `.env` file instea
 First start the receiver:
 
 ```bash
-python receiver_function/receiver.py
+python -m receiver_function.receiver
 ```
 
 Then open another terminal and run the sender:
 
 ```bash
-python sender_function/sender.py
+python -m sender_function.sender
 ```
 
 The receiver should show the received packet and parsed data.
