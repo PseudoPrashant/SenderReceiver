@@ -1,0 +1,8 @@
+{
+    "method": "0xA1",
+    "payload": [
+        ["name", "Prashant"],
+        ["age", "22"],
+        ["city", "Delhi"]
+    ]
+}

@@ -15,6 +15,7 @@ The receiver listens for the sender, receives the packet, checks if the packet i
 
 ```text
 aaSenderReciever/
+├── data.json
 ├── .env
 ├── __init__.py
 ├── ProtocolReceiver.spec
@@ -24,14 +25,15 @@ aaSenderReciever/
 │
 ├── common/
 │   ├── __init__.py
+│   ├── constants.py
+│   ├── logger.py
 │   ├── encrypt_decrypt.py
 │   └── hasher.py
 │
 ├── sender_function/
 │   ├── __init__.py
 │   ├── sender.py
-│   ├── packet_formation.py
-│   └── data.json
+│   └── packet_formation.py
 │
 ├── receiver_function/
 │   ├── __init__.py
@@ -67,7 +69,7 @@ It does these steps:
 4. Creates checksum.
 5. Creates the final frame.
 
-### sender_function/data.json
+### data.json
 
 This file contains the data which is sent by the sender.
 
@@ -133,17 +135,18 @@ Both sender and receiver use this file.
 The custom packet format is:
 
 ```text
-$ZEN 0xd7 hashkey 0xd6 enckey 0xd7 method 0xd7 [encrypted_payload] 0xd7 checksum 0xd1
+$ZEN 0xd7 method 0xd7 [encrypted_payload] 0xd7 checksum 0xd1
 ```
 
 Meaning:
 
 - `$ZEN` is starting flag
 - `0xd7` is main separator
-- `0xd6` separates hash key and encryption key
 - encrypted payload is kept inside `[ ]`
 - checksum is used to check data integrity
 - `0xd1` is ending flag
+
+Note: `hashkey` and `enckey` are now securely loaded from the `.env` file instead of being transmitted over the network in plaintext.
 
 ## How To Run
 

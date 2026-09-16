@@ -1,0 +1,5 @@
+FRAME_START = "$ZEN"
+FRAME_END = "0xd1"
+SEP_MAIN = "0xd7"
+SEP_PAYLOAD_K = "0xd4"
+SEP_PAYLOAD_V = "0xd5"

@@ -1,13 +1,14 @@
-# this file contains the packet formation function
-# $ZEN 0xd7 hashkey 0xd6 enckey 0xd7 method 0xd7 [encrypted_payload] 0xd7 checksum 0xd1
-
+import os
 from common.hasher import djb2_hash
 from common.encrypt_decrypt import custom_xor_enc
+from common.constants import FRAME_START, FRAME_END, SEP_MAIN, SEP_PAYLOAD_K, SEP_PAYLOAD_V
 
 
 def create_packet(config_dict: dict) -> str:
-    hashkey = config_dict["hashkey"]
-    enckey = config_dict["enckey"]
+    # Read keys from environment to avoid sending them in plaintext
+    hashkey = os.getenv("HASH_KEY", "1234")
+    enckey = os.getenv("ENC_KEY", "5678")
+    
     method = config_dict["method"].lower()  # Ensure it's lowercase like "0xa1"
     payload_list = config_dict["payload"]
 
@@ -15,7 +16,7 @@ def create_packet(config_dict: dict) -> str:
     payload_parts = []
     for pair in payload_list:
         key_item, value_item = pair[0], pair[1]
-        payload_parts.append(f"{key_item}0xd4{value_item}0xd5")
+        payload_parts.append(f"{key_item}{SEP_PAYLOAD_K}{value_item}{SEP_PAYLOAD_V}")
 
     raw_payload_string = "".join(payload_parts)
 
@@ -27,8 +28,8 @@ def create_packet(config_dict: dict) -> str:
 
     # 4. Assemble the packet.
     packet = (
-        f"$ZEN 0xd7 {hashkey} 0xd6 {enckey} 0xd7 {method} 0xd7 "
-        f"[{encrypted_payload}] 0xd7 {checksum_val} 0xd1"
+        f"{FRAME_START} {SEP_MAIN} {method} {SEP_MAIN} "
+        f"[{encrypted_payload}] {SEP_MAIN} {checksum_val} {FRAME_END}"
     )
 
     return packet
